@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/png" href="assets/favicon.svg">
+    <title>Les petits plats</title>
+  </head>
+  <body>
+    <header class="banner">
+      <img
+        src="assets/logo.png" 
+        alt="logo des petit plats"
+        class="logo"
+      >
+      <div class="header-block">
+        <h1>CHERCHEZ PARMI PLUS DE 1500 RECETTES <br>
+          DU QUOTIDIEN, SIMPLES ET DÉLICIEUSES
+        </h1>
+        <form class="search-form">
+          <input 
+            type="search"
+            placeholder="Rechercher une recette, un ingrédient..."
+            class="search-input"
+          >
+          <img src="assets/loop.png" alt="loupe de recheche" class="search-icon">
+        </form>
+      </div>
+    </header>
+    <main>
+      <!--tags et filtres-->
+      <section class="tags-filtres">
+        <div class="tags-container">
+          <div class="tag">
+            <button type="button" class="tag-select" id="btnIngredients">Ingrédients
+              <img 
+                src="assets/vectorDown.png" 
+                class="vector-up"
+                alt="flèche déroulante">
+            </button>
+            <div class="dropdown-content" id="dropdownIngredients">
+              <input type="text" placeholder="" id="inputIngredient">
+              <ul id="listIngredients"></ul>
+            </div>
+          </div>
+          <div class="tag">
+            <button type="button" class="tag-select">Appareils
+              <img 
+                src="assets/vectorDown.png" 
+                class="vector vector-up"
+                alt="flèche déroulante">
+            </button>
+            <div class="dropdown-content" id="dropdownAppareils">
+              <input type="text" placeholder="" id="inputAppliance">
+              <ul id="listAppliances"></ul>
+            </div>
+          </div>
+          <div class="tag">
+            <button type="button" class="tag-select">Ustensiles
+              <img 
+                src="assets/vectorDown.png" 
+                class="vector-up"
+                alt="flèche déroulante">
+            </button>
+            <div class="dropdown-content" id="dropdownUstensils">
+              <input type="text" placeholder="" id="inputUstensil">
+              <ul id="listUstensils"></ul>
+            </div>
+          </div>
+        </div>
+        <div id="selectedTags" class="selected-tags">
+          <!--les tags sélectionnées seront ajouté ici-->
+        </div>
+        <span id="recipeCount">1500 recettes</span>
+      </section>
+      <div class="container-card"></div>
+      <div id="noResultsMessage" style="display: none;">Aucun résultat trouvé</div>
+    </main>
+    <!--model-->
+    <script type="module" src="/scripts/api.js"></script>
+    <script type="module" src="/scripts/recipeTemplate.js"></script>
+    <script type="module" src="/scripts/filterTags.js"></script>
+    <script type="module" src="/scripts/index.js"></script>
+  </body>
+</html>
