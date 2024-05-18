@@ -154,14 +154,22 @@ main{
   font-weight: 400;
 }
 
-
+.head{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin: 0 auto;
+}
 .tags-filtres{
   padding-top: 30px;
   width: 90%;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin: 0 auto;
+  margin-left: 0;
 }
 .tags-container{
   width: 55%;
@@ -255,23 +263,30 @@ main{
 }
 
 .tag-item {
-  background-color: #007bff;
+  background-color: #FFD15B;
   color: #fff;
-  border-radius: 5px;
+  border-radius: 10px;
+  width: 141px;
+  height: 53px;
   padding: 5px 10px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .tag-item span {
+  font-family: 'Monrope', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: black;
   margin-right: 10px;
 }
 
 .tag-item .remove-tag {
+  background-color: #FFD15B;
   cursor: pointer;
-  background-color: #dc3545;
   border: none;
-  color: #fff;
+  color: black;
   padding: 0 5px;
   border-radius: 3px;
 }

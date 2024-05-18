@@ -4,9 +4,8 @@ import { displayRecipes } from "./recipeTemplate.js";
 
 let allRecipes;
 let filteredRecipes;
-let ingredientsList = [];
-let appliancesList = [];
-let ustensilsList = [];
+let selectedTags = [];
+const containerCard = document.querySelector(".container-card");
 async function initializeApp() {
 	try {
 		allRecipes = await fetchRecipes();
@@ -66,14 +65,11 @@ function updateFilters() {
 		recipe.ustensils.forEach((ust) => ustensils.add(ust.toLowerCase()));
 	});
 
-	ingredientsList = Array.from(ingredients);
-	appliancesList = Array.from(appliances);
-	ustensilsList = Array.from(ustensils);
-
-	updateFilterList("#listIngredients", ingredientsList);
-	updateFilterList("#listAppliances", appliancesList);
-	updateFilterList("#listUstensils", ustensilsList);
+	updateFilterList("#listIngredients", Array.from(ingredients));
+	updateFilterList("#listAppliances", Array.from(appliances));
+	updateFilterList("#listUstensils", Array.from(ustensils));
 }
+
 function updateFilterList(selector, items) {
 	const listElement = document.querySelector(selector);
 	if (!listElement) return; //Vérifie si l'élément existe déja avant d'avancer
@@ -89,23 +85,28 @@ function setupAdvancedSearch() {
 	document
 		.getElementById("listIngredients")
 		.addEventListener("click", (event) => {
-			handleAdvancedSearch(event.target.textContent.trim(), "ingredients");
+			handleAdvancedSearch(
+				event.target.textContent.trim(),
+				"ingredients",
+				event
+			);
 		});
 
 	document
 		.getElementById("listAppliances")
 		.addEventListener("click", (event) => {
-			handleAdvancedSearch(event.target.textContent.trim(), "appliance");
+			handleAdvancedSearch(event.target.textContent.trim(), "appliance", event);
 		});
 
 	document
 		.getElementById("listUstensils")
 		.addEventListener("click", (event) => {
-			handleAdvancedSearch(event.target.textContent.trim(), "ustensils");
+			handleAdvancedSearch(event.target.textContent.trim(), "ustensils", event);
 		});
 }
 
-function handleAdvancedSearch(selectedItem, filterType) {
+function handleAdvancedSearch(selectedItem, filterType, event) {
+	selectedTags.push({ item: selectedItem, type: filterType });
 	//ajouter le tag
 	addTag(selectedItem, filterType);
 	// Filtrer les recettes déjà filtrées en fonction de l'élément sélectionné
@@ -138,40 +139,44 @@ function addTag(selectedItem, filterType) {
 	const tagContainer = document.getElementById("selectedTags");
 	const tagItem = document.createElement("div");
 	tagItem.className = "tag-item";
-	tagItem.innerHTML = `<span>${selectedItem}</span><button class="remove-tag" data-item="${selectedItem}" data-type="${filterType}">x</button>`;
+	tagItem.innerHTML = `
+    <span>${selectedItem}</span>
+    <button class="remove-tag" data-item="${selectedItem}" data-type="${filterType}">
+      <img src="/assets/vectorClose.png">
+    </button>`;
 	tagContainer.appendChild(tagItem);
 
 	// Écouter l'événement de clic pour supprimer le tag
 	tagItem.querySelector(".remove-tag").addEventListener("click", (event) => {
-		removeTag(event.target.dataset.item, event.target.dataset.type);
+		const button = event.currentTarget;
+		removeTag(button.dataset.item, button.dataset.type);
 		tagItem.remove();
 	});
 }
 function removeTag(item, type) {
-	filteredRecipes = allRecipes; // Réinitialiser les recettes filtrées
+	// Retirer le tag de selectedTags
+	selectedTags = selectedTags.filter(
+		(tag) => tag.item !== item || tag.type !== type
+	);
+	// Réinitialiser les recettes filtrées
+	filteredRecipes = [...allRecipes];
 
-	// Retirer le filtre de l'élément supprimé
-	const activeTags = document.querySelectorAll(".tag-item");
-	activeTags.forEach((tag) => {
-		const tagItem = tag.querySelector("span").textContent;
-		const tagType = tag.querySelector(".remove-tag").dataset.type;
-
-		if (tagItem !== item || tagType !== type) {
-			filteredRecipes = filteredRecipes.filter((recipe) => {
-				if (tagType === "ingredients") {
-					return recipe.ingredients.some(
-						(ingredient) =>
-							ingredient.ingredient.toLowerCase() === tagItem.toLowerCase()
-					);
-				} else if (tagType === "appliance") {
-					return recipe.appliance.toLowerCase() === tagItem.toLowerCase();
-				} else if (tagType === "ustensils") {
-					return recipe.ustensils.some(
-						(ustensil) => ustensil.toLowerCase() === tagItem.toLowerCase()
-					);
-				}
-			});
-		}
+	// Réappliquer tous les tags restants
+	selectedTags.forEach((tag) => {
+		filteredRecipes = filteredRecipes.filter((recipe) => {
+			if (tag.type === "ingredients") {
+				return recipe.ingredients.some(
+					(ingredient) =>
+						ingredient.ingredient.toLowerCase() === tag.item.toLowerCase()
+				);
+			} else if (tag.type === "appliance") {
+				return recipe.appliance.toLowerCase() === tag.item.toLowerCase();
+			} else if (tag.type === "ustensils") {
+				return recipe.ustensils.some(
+					(ustensil) => ustensil.toLowerCase() === tag.item.toLowerCase()
+				);
+			}
+		});
 	});
 
 	// Afficher les recettes filtrées et mettre à jour les filtres
@@ -179,11 +184,13 @@ function removeTag(item, type) {
 	displayRecipes(filteredRecipes);
 	updateRecipeCount(filteredRecipes.length);
 }
+
 function setupSearchFilters() {
 	setupSearchFilter("inputIngredient", "#listIngredients");
 	setupSearchFilter("inputAppliance", "#listAppliances");
 	setupSearchFilter("inputUstensil", "#listUstensils");
 }
+
 function setupSearchFilter(inputId, listId) {
 	const searchInput = document.getElementById(inputId);
 	searchInput.addEventListener("input", () => {
