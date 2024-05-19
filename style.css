@@ -225,7 +225,7 @@ main{
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 4px;
-  background-image: url('assets/loopTags.svg'); 
+  background-image: url('assets/loopTags.svg');
   background-size:13.5px 14px;
   background-repeat: no-repeat;
   background-position: right 8px center; 
