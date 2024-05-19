@@ -50,3 +50,14 @@ export function displayRecipes(recipes) {
 		container.appendChild(card);
 	});
 }
+/*export function displayRecipes(recipes) {
+	const container = document.querySelector(".container-card");
+	container.innerHTML = "";
+
+	for (let i = 0; i < recipes.length; i++) {
+		const recipe = recipes[i];
+		const card = createRecipeCardDom(recipe);
+		container.appendChild(card);
+	}
+}
+*/
