@@ -242,6 +242,7 @@ function searchInput() {
 		}
 	});
 }
+//recherche principale par mot
 function handleSearchInput(searchTerm) {
 	const tempFilteredRecipes = [];
 	for (let i = 0; i < allRecipes.length; i++) {
@@ -269,6 +270,7 @@ function handleSearchInput(searchTerm) {
 	displayRecipes(filteredRecipes);
 	updateRecipeCount(filteredRecipes.length);
 }
+//mise à jour des listes ingrédients, ustensils et appareils
 function updateFilters() {
 	const ingredients = new Set();
 	const appliances = new Set();
@@ -289,7 +291,7 @@ function updateFilters() {
 	updateFilterList("#listAppliances", Array.from(appliances));
 	updateFilterList("#listUstensils", Array.from(ustensils));
 }
-
+//mise à jour des listes ingrédients, ustensils et appareils
 function updateFilterList(selector, items) {
 	const listElement = document.querySelector(selector);
 	if (!listElement) return; //Vérifie si l'élément existe déja avant d'avancer
