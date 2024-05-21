@@ -5,7 +5,7 @@ import { displayRecipes } from "./recipeTemplate.js";
 let allRecipes;
 let filteredRecipes;
 let selectedTags = [];
-const containerCard = document.querySelector(".container-card");
+
 async function initializeApp() {
 	try {
 		allRecipes = await fetchRecipes();
