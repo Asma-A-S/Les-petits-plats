@@ -7,7 +7,7 @@ export function createRecipeCardDom(recipe) {
       <span class="recipe-card-time">
         <p class="time">${recipe.time} min</p>
       </span>
-      <img class="recipe-card-img" src="/assets/images/${
+      <img class="recipe-card-img" src="assets/images/${
 				recipe.image
 			}" alt="Photo du plat">
       <div class="recipe-card-info">
