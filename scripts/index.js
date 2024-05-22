@@ -105,7 +105,7 @@ function setupAdvancedSearch() {
 		});
 }
 
-function handleAdvancedSearch(selectedItem, filterType, event) {
+function handleAdvancedSearch(selectedItem, filterType) {
 	selectedTags.push({ item: selectedItem, type: filterType });
 	//ajouter le tag
 	addTag(selectedItem, filterType);
@@ -142,7 +142,7 @@ function addTag(selectedItem, filterType) {
 	tagItem.innerHTML = `
     <span>${selectedItem}</span>
     <button class="remove-tag" data-item="${selectedItem}" data-type="${filterType}">
-      <img src="/assets/vectorClose.png">
+      <img src="assets/vectorClose.png">
     </button>`;
 	tagContainer.appendChild(tagItem);
 
